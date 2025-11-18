@@ -1,4 +1,4 @@
-# MOGWAI SAMPLES
+# MOGWAI EXEMPLES
 
 ![MOGWAI](./Images/img01.png)
 
