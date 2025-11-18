@@ -1,0 +1,131 @@
+
+cls mogwai.reset
+
+[defClass className: 'User'
+	
+	vars:
+	[
+		creationDate: .number
+	]
+	
+	props:
+	[
+		id: .number
+		name: .string
+		password: .string
+		isAdmin: .boolean
+	]
+	
+	funcs:
+	[
+		create:
+		«
+			[id: .number name: .string password: .string] ->params
+			
+			id -> 'self:id'
+			name -> 'self:name'
+			password -> 'self:password'
+			false -> 'self:isAdmin'
+			
+			now -> 'creationDate'	
+			creationDate self:getDate -> 'strDate'
+			"CREATE {! self:className} AT {! strDate}" eval ?
+			" " ?
+		»
+		
+		release:
+		«
+			"RELEASE {! self} - {! self:className}" eval ?
+			" " ?
+		»
+		
+		display:
+		«
+			creationDate self:getDate -> 'strDate'
+			
+			"ClassName  = {! self:className}" eval ?
+			"ID         = {! self:id}" eval ?
+			"NAME       = {! self:name}" eval ?
+			"PASSWORD   = {! self:password}" eval ?
+			"IS ADMIN   = {! self:isAdmin}" eval ?
+			"CREATED AT = {! strDate}" eval ?
+		»
+		
+		getDate:
+		«
+			[date: .number] ->safeVars
+			
+			date ->date ->vars
+			
+			day "00" ->format -> 'day'
+			month "00" ->format -> 'month'
+			year "0000" ->format -> 'year'
+			hour "00" ->format -> 'hour'
+			minute "00" ->format -> 'minute'
+			second "00" ->format -> 'second'
+			
+			"{! day}/{! month}/{! year} - {! hour}:{! minute}:{! second}" eval
+		»
+	]
+]
+
+[defClass className: 'Admin' base: 'User'
+
+	funcs:
+	[
+		create:
+		«
+			base:create
+			true -> 'self:isAdmin'		
+		»
+	]
+]
+
+"CREATION OF OBJECTS..." ?
+" " ?
+
+[
+	id: 10 
+	name: "DUPONT" 
+	password: "AzER56xD"] alloc 'User' to '$U1'
+	
+	rand 5000 * 2500 + wait
+
+[
+	id: 20 
+	name: "MARTIN" 
+	password: "23zWX7@o"] alloc 'User' to '$U2'
+	
+	rand 5000 * 2500 + wait
+	
+[
+	id: 30 
+	name: "MASTER" 
+	password: "23zWX7@o"] alloc 'Admin' to '$U3'
+	
+" " ?
+
+
+?instances
+" " ?
+	
+"DISPLAYING OBJECTS..." ?
+" " ?
+	
+(! $U1 $U2 $U3) foreach 'item' do
+{
+	item:display
+	" " ?
+}
+" " ?
+
+?instances
+" " ?
+
+'$U1' purge
+'$U2' purge
+'$U3' purge
+
+
+
+

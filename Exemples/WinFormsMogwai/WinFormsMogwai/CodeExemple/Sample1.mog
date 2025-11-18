@@ -1,0 +1,10 @@
+﻿mogwai.reset
+
+cls
+
+[http.get uri: "https://www.google.fr"] dup ? -> 'r'
+
+if (r->state) then
+{
+	r->response 0 300 sub ?d
+}

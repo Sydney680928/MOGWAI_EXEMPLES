@@ -1,0 +1,142 @@
+﻿cls mogwai.reset
+
+to 'shutdown' do 
+« 
+	task.list foreach 'task' do 
+	{
+		" " ?
+		"PURGE TASK {! task}" eval ?
+		
+		task task.purge
+	}
+»
+
+to 'MOGWAI.onStop' do 
+« 
+	shutdown 
+»
+
+to 'MOGWAI.onError' do 
+« 
+	shutdown 
+»
+
+event 'TASK_DID_START' do 
+«
+	" " ?
+ 	"TASK DID START : {! eventData}" eval ?
+»
+
+event 'TASK_DID_END' do 
+« 
+	" " ?
+	"TASK DID END : {! eventData}" eval ?
+	"RESULT={! eventData task.result}" eval ? 
+»
+
+event 'TASK_DID_FAIL' do 
+« 
+	" " ?
+	"TASK DID FAIL : {! eventData}" eval ?
+»
+
+event 'TASK_DID_PUBLISH' do 
+« 
+	" " ?
+	"TASK DID PUBLISH : {! eventData}" eval ?
+»
+
+( 
+	[
+		task: 'T1' 
+		uri: "https://www.google.fr" 
+		file: "google.dat"
+	]
+	
+	[
+		task: 'T2' 
+		uri: "https://www.coding4phone.com" 
+		file: "c4p.dat"
+	]
+	
+	[
+		task: 'T3' 
+		uri: "https://www.youtube.com" 
+		file: "youtube.dat"
+	]
+	
+	[
+		task: 'T4' 
+		uri: "https://www.credit-agricole.fr/ca-des-savoie/particulier.html" 
+		file: "crca.dat"
+	]
+	
+	[
+		task: 'T5' 
+		uri: "https://play.google.com/console/u/0/developers/8692074379549184713/app-list?hl=fr" 
+		file: "playstore.dat"
+	]
+	
+	[
+		task: 'T6' 
+		uri: "https://github.com/" 
+		file: "github.dat"
+	]
+)
+
+foreach 'item' do
+{
+	[! defTask
+		name: {! item->task}
+		input: [uri: {! item->uri} file: {! item->file}]
+		
+		job: 
+		« 
+			event 'TASK_DID_RECEIVE' do 
+			«
+				" " ?
+				"CHILD TASK DID RECEIVE : {! eventData}" eval ?
+			»
+			
+			task.input ->vars
+				
+			trap { file file.purge }
+			
+			[! http.get uri: uri] -> 'r'
+			
+			if (r->state) then
+			{
+				r->response file file.write
+				true task.setResult
+			}
+			else
+			{
+				false task.setResult
+			}	
+		»
+		
+		finally:
+		«
+			" " ?
+			"{! taskName} FINALLY !" eval ?
+		»
+	]
+}
+
+"WE LAUNCH ALL THE TASKS..." ?
+
+task.list foreach 'item' do 
+{ 
+	item task.run 
+}
+
+task.list task.join
+
+" " ?
+"ALL TASKS ARE COMPLETE." ?
+" " ?
+"You can go to the root folder and check that the downloads are there." ?
+	
+
+
+
