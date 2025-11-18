@@ -1,2 +1,5 @@
-# MOGWAI_SAMPLES
-This repository contains examples of integrating the MOGWAI runtime.
+# MOGWAI SAMPLES
+
+![MOGWAI](./Images/img01.png)
+
+This repository contains examples of integrating the [MOGWAI runtime](https://www.mogwai.eu.com).
