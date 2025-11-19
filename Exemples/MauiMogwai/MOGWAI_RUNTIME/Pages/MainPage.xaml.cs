@@ -17,7 +17,7 @@ namespace MOGWAI_RUNTIME.Pages
 
         private MOGEngine _MOGEngine;
         private bool _DebugMode;
-        private string _Filename = "SANS NOM";
+        private string _Filename = "NO NAME";
         private bool _CodeIsSaved;
         private bool _CodeIsModified;
 
@@ -59,11 +59,11 @@ namespace MOGWAI_RUNTIME.Pages
         {
             InitializeComponent();
 
-            // Création du moteur MOGWAI
+            // Create MOGWAI engine
 
             _MOGEngine = new("MOGWAI RT", true, null, AppGlobal.DataFolder, this);
 
-            // Initialisation de la console de sortie
+            // Output initialize
 
             var htmlSource = new HtmlWebViewSource
             {
@@ -77,7 +77,7 @@ namespace MOGWAI_RUNTIME.Pages
         {
             _DebugMode = false;
         
-            // Réactivation de l'auto power off
+            // Auto power off -> ON
 
             MainThread.BeginInvokeOnMainThread(() =>
             {
@@ -128,13 +128,6 @@ namespace MOGWAI_RUNTIME.Pages
             });
         }
 
-        /*
-        private void ConsoleClear()
-        {
-            MainThread.InvokeOnMainThreadAsync(OutputDisplay.Clear).Wait();          
-        }
-        */
-
         private async Task ConsoleClearScreenAsync()
         {
             await MainThread.InvokeOnMainThreadAsync(async () =>
@@ -143,25 +136,9 @@ namespace MOGWAI_RUNTIME.Pages
             });
         }
 
-        /*
-        private void ConsoleWrite(string text)
-        {
-            var t = MainThread.InvokeOnMainThreadAsync(() => { OutputDisplay.Write(text); });
-            t.Wait();
-        }
-        */
-
-        /*
-        private void ConsoleWriteLine(string text)
-        {
-            var t = MainThread.InvokeOnMainThreadAsync(() => { OutputDisplay.WriteLine(text); });
-            t.Wait();
-        }
-        */
-
         private async Task SaveAs()
         {
-            var r = await DisplayPromptAsync("Enregistrer sous...", "Veuillez saisir le nom du script", "OK", "ANNULER", null, -1, null, _Filename);
+            var r = await DisplayPromptAsync("Save as...", "Please enter the name of the script", "OK", "CANCEL", null, -1, null, _Filename);
 
             if (!string.IsNullOrEmpty(r))
             {
@@ -170,7 +147,7 @@ namespace MOGWAI_RUNTIME.Pages
 
                 if (File.Exists(path))
                 {
-                    var r1 = await DisplayAlert("Enregistrer sous...", $"Le script '{r}' existe déjà.\nVoulez-vous le remplacer", "OUI", "NON");
+                    var r1 = await DisplayAlert("Save as...", $"The script '{r}' already exists.\nDo you want to replace it?", "YES", "NO");
                     if (!r1) return;
                 }
 
@@ -203,7 +180,7 @@ namespace MOGWAI_RUNTIME.Pages
                 }
                 catch (Exception ex)
                 {
-                    await DisplayAlert("Enregistrer Script", $"Impossible d'enregistrer le script !\n\n{ex.Message}", "OK");
+                    await DisplayAlert("Save Script", $"Unable to save the script !\n\n{ex.Message}", "OK");
                 }
             }
         }
@@ -233,7 +210,7 @@ namespace MOGWAI_RUNTIME.Pages
         {
             if (!AppGlobal.CreateDataStructure())
             {
-                await DisplayAlert("MOGWAI RT", "Impossible de créer la structure nécessaire à l'application !", "OK");
+                await DisplayAlert("MOGWAI RUNTIME", "Unable to create the structure required for the application !", "OK");
                 return;
             }
 
@@ -266,7 +243,7 @@ namespace MOGWAI_RUNTIME.Pages
         {
             if (await CheckIfSaveIsRequested()) return false;
 
-            var f = await SelectScripFile("Ouvrir script");
+            var f = await SelectScripFile("Open script");
 
             if (f != null)
             {
@@ -291,7 +268,7 @@ namespace MOGWAI_RUNTIME.Pages
                 }
                 catch (Exception ex)
                 {
-                    await DisplayAlert("Ouvrir Script", $"Impossible de charger ce script !\n\n{ex.Message}", "OK");
+                    await DisplayAlert("Open Script", $"Unable to load this script !\n\n{ex.Message}", "OK");
                 }
             }
 
@@ -302,7 +279,7 @@ namespace MOGWAI_RUNTIME.Pages
         {
             if (_CodeIsModified)
             {
-                var r = await DisplayAlert("Script", "Le code a été modifié et n'a pas été enregistré.\n\nVoulez-vous continuer tout de même ?", "CONTINUER (!)", "ANNULER");
+                var r = await DisplayAlert("Script", "The code has been modified and has not been saved.\n\nDo you still want to continue?", "CONTINUE (!)", "CANCEL");
                 return !r;
             }
 
@@ -479,17 +456,17 @@ namespace MOGWAI_RUNTIME.Pages
 
         private async void RenameFileMenu_ItemTapped(Plugin.ContextMenuContainer.ContextMenuItem item)
         {
-            var f = await SelectScripFile("Renommer Script");
+            var f = await SelectScripFile("Rename Script");
 
             if (f != null)
             {
                 if (f == _Filename)
                 {
-                    await DisplayAlert("Renommer Script", "Vous ne pouvez pas renommer le script en cours d'édition !", "OK");
+                    await DisplayAlert("Rename Script", "You cannot rename the script that is currently being edited!", "OK");
                     return;
                 }
 
-                var r = await DisplayPromptAsync("Renommer Script", $"Quel nouveau nom voulez-vous donner au script '{f}' ?", "RENOMMER", "ANNULER", null, -1, null, f);
+                var r = await DisplayPromptAsync("Renommer Script", $"What new name do you want to give the script '{f}' ?", "RENAME", "CANCEL", null, -1, null, f);
 
                 if (!string.IsNullOrEmpty(r))
                 {
@@ -500,11 +477,11 @@ namespace MOGWAI_RUNTIME.Pages
 
                         File.Move(oldName, newName);
 
-                        await DisplayAlert("Renommer Script", "Script renommé.", "OK");
+                        await DisplayAlert("Rename Script", "Script renamed.", "OK");
                     }
                     catch (Exception ex)
                     {
-                        await DisplayAlert("Renommer Script", $"Impossible de renommer ce script !\n\n{ex.Message}", "OK");
+                        await DisplayAlert("Rename Script", $"Unable to rename this script!\n\n{ex.Message}", "OK");
                     }
                 }
             }
@@ -512,17 +489,17 @@ namespace MOGWAI_RUNTIME.Pages
 
         private async void DeleteFileMenu_ItemTapped(Plugin.ContextMenuContainer.ContextMenuItem item)
         {
-            var f = await SelectScripFile("Supprimer Script");
+            var f = await SelectScripFile("Delete Script");
 
             if (f != null)
             {
                 if (f == _Filename)
                 {
-                    await DisplayAlert("Supprimer Script", "Vous ne pouvez pas supprimer le script en cours d'édition !", "OK");
+                    await DisplayAlert("Delete Script", "You cannot delete the script that is currently being edited!", "OK");
                     return;
                 }
 
-                var r = await DisplayAlert("Supprimer Script", $"Etes-vous sûr de vouloir supprimer le script '{f}' ?", "SUPPRIMER", "ANNULER");
+                var r = await DisplayAlert("Delete Script", $"Are you sure you want to delete the script '{f}'?", "DELETE", "CANCEL");
 
                 if (r)
                 {
@@ -531,11 +508,11 @@ namespace MOGWAI_RUNTIME.Pages
                     try
                     {
                         File.Delete(path);
-                        await DisplayAlert("Supprimer Script", "Script supprimé.", "OK");
+                        await DisplayAlert("Delete Script", "Script deleted.", "OK");
                     }
                     catch (Exception ex)
                     {
-                        await DisplayAlert("Supprimer Script", $"Impossible de supprimer ce script !\n\n{ex.Message}", "OK");
+                        await DisplayAlert("Delete Script", $"Unable to delete this script!\n\n{ex.Message}", "OK");
                     }
                 }
             }
@@ -545,7 +522,7 @@ namespace MOGWAI_RUNTIME.Pages
         {
             if (await CheckIfSaveIsRequested()) return;
 
-            var f = await SelectScripFile("Partager Script");
+            var f = await SelectScripFile("Share Script");
 
             if (f != null)
             {
@@ -553,7 +530,7 @@ namespace MOGWAI_RUNTIME.Pages
 
                 await Share.Default.RequestAsync(new ShareFileRequest
                 {
-                    Title = $"Partager le script {f}",
+                    Title = $"Share le script {f}",
                     File = new ShareFile(path)
                 });
             }
@@ -563,7 +540,7 @@ namespace MOGWAI_RUNTIME.Pages
         {
             if (await CheckIfSaveIsRequested()) return;
 
-            var f = await SelectFile("Importer Script");
+            var f = await SelectFile("Import Script");
 
             if (f != null)
             {
@@ -571,7 +548,7 @@ namespace MOGWAI_RUNTIME.Pages
 
                 if (!System.IO.Path.GetFileName(f).ToUpper().EndsWith(".MOG"))
                 {
-                    await DisplayAlert("Importer Script", "Vous devez sélectionner un script valide (.mog) !", "OK");
+                    await DisplayAlert("Import Script", "You must select a valid script (.mog)!", "OK");
                     return;
                 }
 
@@ -580,25 +557,25 @@ namespace MOGWAI_RUNTIME.Pages
 
                 if (File.Exists(destination))
                 {
-                    var r = await DisplayAlert("Importer Script", $"Ce script existe déjà. Voulez-vous le remplacer ?", "REMPLACER", "ANNULER");
+                    var r = await DisplayAlert("Importer Script", $"This script already exists. Do you want to replace it?", "REPLACE", "CANCEL");
                     if (!r) return;
                 }
 
                 try
                 {
                     File.Copy(f, destination, true);
-                    await DisplayAlert("Importer Script", "Script importé.", "OK");
+                    await DisplayAlert("Import Script", "Script importé.", "OK");
                 }
                 catch (Exception ex)
                 {
-                    await DisplayAlert("Importer Script", $"Impossible d'importer ce script !\n\n{ex.Message}", "OK");
+                    await DisplayAlert("Import Script", $"Unable to import this script!\n\n{ex.Message}", "OK");
                 }
             }
         }
 
         private async void ShareDataFileMenu_ItemTapped(Plugin.ContextMenuContainer.ContextMenuItem item)
         {
-            var f = await SelectDataFile("Partager Fichier");
+            var f = await SelectDataFile("Share File");
 
             if (f != null)
             {
@@ -606,7 +583,7 @@ namespace MOGWAI_RUNTIME.Pages
 
                 await Share.Default.RequestAsync(new ShareFileRequest
                 {
-                    Title = $"Partager le fichier {f}",
+                    Title = $"Share the file {f}",
                     File = new ShareFile(path)
                 });
             }
@@ -614,7 +591,7 @@ namespace MOGWAI_RUNTIME.Pages
 
         private async void ImportDataFileMenu_ItemTapped(Plugin.ContextMenuContainer.ContextMenuItem item)
         {
-            var f = await SelectFile("Importer Fichier");
+            var f = await SelectFile("Import File");
 
             if (f != null)
             {
@@ -623,29 +600,29 @@ namespace MOGWAI_RUNTIME.Pages
 
                 if (File.Exists(destination))
                 {
-                    var r = await DisplayAlert("Importer Fichier", $"Ce fichier existe déjà. Voulez-vous le remplacer ?", "REMPLACER", "ANNULER");
+                    var r = await DisplayAlert("Import File", $"This file already exists. Do you want to replace it?", "REPLACE", "CANCEL");
                     if (!r) return;
                 }
 
                 try
                 {
                     File.Copy(f, destination, true);
-                    await DisplayAlert("Importer Fichier", "Fichier importé.", "OK");
+                    await DisplayAlert("Import File", "File imported.", "OK");
                 }
                 catch (Exception ex)
                 {
-                    await DisplayAlert("Importer Fichier", $"Impossible d'importer ce fichier !\n\n{ex.Message}", "OK");
+                    await DisplayAlert("Import File", $"Unable to import this file!\n\n{ex.Message}", "OK");
                 }
             }
         }
 
         private async void RenameDataFileMenu_ItemTapped(Plugin.ContextMenuContainer.ContextMenuItem item)
         {
-            var f = await SelectDataFile("Renommer Fichier");
+            var f = await SelectDataFile("Rename File");
 
             if (f != null)
             {
-                var r = await DisplayPromptAsync("Renommer Fichier", $"Quel nouveau nom voulez-vous donner au script '{f}' ?", "RENOMMER", "ANNULER", null, -1, null, f);
+                var r = await DisplayPromptAsync("Rename File", $"What new name do you want to give the file '{f}'?", "RENAME", "CANCEL", null, -1, null, f);
 
                 if (!string.IsNullOrEmpty(r))
                 {
@@ -656,11 +633,11 @@ namespace MOGWAI_RUNTIME.Pages
 
                         File.Move(oldName, newName);
 
-                        await DisplayAlert("Renommer Fichier", "Fichier renommé.", "OK");
+                        await DisplayAlert("Rename File", "File renamed.", "OK");
                     }
                     catch (Exception ex)
                     {
-                        await DisplayAlert("Renommer Fichier", $"Impossible de renommer ce fichier !\n\n{ex.Message}", "OK");
+                        await DisplayAlert("Rename File", $"Unable to rename this file!\n\n{ex.Message}", "OK");
                     }
                 }
             }
@@ -668,11 +645,11 @@ namespace MOGWAI_RUNTIME.Pages
 
         private async void DeleteDataFileMenu_ItemTapped(Plugin.ContextMenuContainer.ContextMenuItem item)
         {
-            var f = await SelectDataFile("Supprimer Fichier");
+            var f = await SelectDataFile("Delete File");
 
             if (f != null)
             {
-                var r = await DisplayAlert("Supprimer Fichier", $"Etes-vous sûr de vouloir supprimer le fichier '{f}' ?", "SUPPRIMER", "ANNULER");
+                var r = await DisplayAlert("Delete File", $"Are you sure you want to delete the file '{f}'?", "DELETE", "CANCEL");
 
                 if (r)
                 {
@@ -681,11 +658,11 @@ namespace MOGWAI_RUNTIME.Pages
                     try
                     {
                         File.Delete(path);
-                        await DisplayAlert("Supprimer Fichier", "Fichier supprimé.", "OK");
+                        await DisplayAlert("Delete File", "File deleted.", "OK");
                     }
                     catch (Exception ex)
                     {
-                        await DisplayAlert("Supprimer Fichier", $"Impossible de supprimer ce fichier !\n\n{ex.Message}", "OK");
+                        await DisplayAlert("Delete File", $"Unable to delete this file!\n\n{ex.Message}", "OK");
                     }
                 }
             }
@@ -820,7 +797,7 @@ namespace MOGWAI_RUNTIME.Pages
                 FlagErrorPath.IsVisible = false;
             });
 
-            // désactivation de l'auto power off
+            // Auto power off -> OFF
 
             Tools.SuspendAutoPowerOff();
         }

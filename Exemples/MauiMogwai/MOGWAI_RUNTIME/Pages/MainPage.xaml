@@ -44,19 +44,19 @@
 
                     <cm:ContextMenuContainer.MenuItems>
                         
-                        <cm:ContextMenuItem x:Name="OpenFileMenu" Text="Ouvrir..." ItemTapped="OpenFileMenu_ItemTapped" />
+                        <cm:ContextMenuItem x:Name="OpenFileMenu" Text="Open..." ItemTapped="OpenFileMenu_ItemTapped" />
 
-                        <cm:ContextMenuItem x:Name="SaveFileMenu" Text="Enregistrer" ItemTapped="SaveFileMenu_ItemTapped" />
+                        <cm:ContextMenuItem x:Name="SaveFileMenu" Text="Save" ItemTapped="SaveFileMenu_ItemTapped" />
 
-                        <cm:ContextMenuItem x:Name="SaveAsFileMenu" Text="Enregistrer sous..." ItemTapped="SaveAsFileMenu_ItemTapped" />
+                        <cm:ContextMenuItem x:Name="SaveAsFileMenu" Text="Save as..." ItemTapped="SaveAsFileMenu_ItemTapped" />
 
-                        <cm:ContextMenuItem x:Name="ShareFileMenu" Text="Partager..." ItemTapped="ShareFileMenu_ItemTapped" />
+                        <cm:ContextMenuItem x:Name="ShareFileMenu" Text="Share..." ItemTapped="ShareFileMenu_ItemTapped" />
 
-                        <cm:ContextMenuItem x:Name="ImportFileMenu" Text="Importer..." ItemTapped="ImportFileMenu_ItemTapped" />
+                        <cm:ContextMenuItem x:Name="ImportFileMenu" Text="Import..." ItemTapped="ImportFileMenu_ItemTapped" />
 
-                        <cm:ContextMenuItem x:Name="RenameFileMenu" Text="Renommer..." ItemTapped="RenameFileMenu_ItemTapped" />
+                        <cm:ContextMenuItem x:Name="RenameFileMenu" Text="Rename..." ItemTapped="RenameFileMenu_ItemTapped" />
 
-                        <cm:ContextMenuItem x:Name="DeleteFileMenu" Text="Supprimer..." ItemTapped="DeleteFileMenu_ItemTapped" />
+                        <cm:ContextMenuItem x:Name="DeleteFileMenu" Text="Delete..." ItemTapped="DeleteFileMenu_ItemTapped" />
 
                     </cm:ContextMenuContainer.MenuItems>
 
@@ -74,13 +74,13 @@
 
                     <cm:ContextMenuContainer.MenuItems>
 
-                        <cm:ContextMenuItem x:Name="ShareDataFileMenu" Text="Partager..." ItemTapped="ShareDataFileMenu_ItemTapped" />
+                        <cm:ContextMenuItem x:Name="ShareDataFileMenu" Text="Share..." ItemTapped="ShareDataFileMenu_ItemTapped" />
 
-                        <cm:ContextMenuItem x:Name="ImportDataFileMenu" Text="Importer..." ItemTapped="ImportDataFileMenu_ItemTapped" />
+                        <cm:ContextMenuItem x:Name="ImportDataFileMenu" Text="Import..." ItemTapped="ImportDataFileMenu_ItemTapped" />
 
-                        <cm:ContextMenuItem x:Name="RenameDataFileMenu" Text="Renommer..." ItemTapped="RenameDataFileMenu_ItemTapped" />
+                        <cm:ContextMenuItem x:Name="RenameDataFileMenu" Text="Rename..." ItemTapped="RenameDataFileMenu_ItemTapped" />
 
-                        <cm:ContextMenuItem x:Name="DeleteDataFileMenu" Text="Supprimer..." ItemTapped="DeleteDataFileMenu_ItemTapped" />
+                        <cm:ContextMenuItem x:Name="DeleteDataFileMenu" Text="Delete..." ItemTapped="DeleteDataFileMenu_ItemTapped" />
 
                     </cm:ContextMenuContainer.MenuItems>
 
