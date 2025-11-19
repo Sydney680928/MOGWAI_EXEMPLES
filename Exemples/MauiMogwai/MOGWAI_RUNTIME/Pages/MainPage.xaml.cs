@@ -236,11 +236,6 @@ namespace MOGWAI_RUNTIME.Pages
             }
         }
 
-        private void OutputDisplay2_Loaded(object sender, EventArgs e)
-        {
-
-        }
-
         private async Task<bool> OpenFileAsync()
         {
             if (await CheckIfSaveIsRequested()) return false;
@@ -355,14 +350,17 @@ namespace MOGWAI_RUNTIME.Pages
             {
                 if (!string.IsNullOrEmpty(message))
                 {
-                    var lines = message.Replace("\r", "").Replace(" ", @"\xa0").Split("\n");
+                    var lines = message
+                    .Replace("\r", "")
+                    .Replace(" ", @"\xa0")
+                    .Split("\n");
 
                     for (int i = 0; i < lines.Length - 1; i++)
                     {
-                        await OutputDisplay.EvaluateJavaScriptAsync($"consoleWriteLine(\"{lines[i]}\");");
+                        await OutputDisplay.EvaluateJavaScriptAsync($"consoleWriteLine(`{lines[i]}`);");
                     }
 
-                    await OutputDisplay.EvaluateJavaScriptAsync($"consoleWrite(\"{lines[lines.Length - 1]}\");");
+                    await OutputDisplay.EvaluateJavaScriptAsync($"consoleWrite(`{lines[lines.Length - 1]}`);");
                 }
             });
         }
@@ -373,16 +371,19 @@ namespace MOGWAI_RUNTIME.Pages
             {
                 if (!string.IsNullOrEmpty(message))
                 {
-                    var lines = message.Replace("\r", "").Replace(" ", @"\xa0").Split("\n");
+                    var lines = message
+                    .Replace("\r", "")
+                    .Replace(" ", @"\xa0")
+                    .Split("\n");
 
                     foreach (var line in lines)
                     {
-                        await OutputDisplay.EvaluateJavaScriptAsync($"consoleWriteLine(\"{line}\");");
+                        await OutputDisplay.EvaluateJavaScriptAsync($"consoleWriteLine(`{line}`);");
                     }
                 }
                 else
                 {
-                    await OutputDisplay.EvaluateJavaScriptAsync("consoleWriteLine(\"\");");
+                    await OutputDisplay.EvaluateJavaScriptAsync("consoleWriteLine(``);");
                 }
             });
         }
@@ -392,6 +393,14 @@ namespace MOGWAI_RUNTIME.Pages
             await MainThread.InvokeOnMainThreadAsync(async () =>
             {             
                 await OutputDisplay.EvaluateJavaScriptAsync("startInputMode();");
+            });
+        }
+
+        private async Task ConsoleExitInputMode()
+        {
+            await MainThread.InvokeOnMainThreadAsync(async () =>
+            {
+                await OutputDisplay.EvaluateJavaScriptAsync("exitInputMode();");
             });
         }
 
@@ -439,6 +448,19 @@ namespace MOGWAI_RUNTIME.Pages
                 var v = await OutputDisplay.EvaluateJavaScriptAsync("lastInputValue");
                 return v ?? "";
             });
+        }
+
+        private async void NewFileMenu_ItemTapped(Plugin.ContextMenuContainer.ContextMenuItem item)
+        {
+            if (!await CheckIfSaveIsRequested())
+            {
+                _Filename = "NO NAME";
+                _CodeIsSaved = true;
+                CodeEditor.Text = string.Empty;
+                _CodeIsModified = false;
+                FilenameLabel.Text = _Filename;
+                CodeEditor.Focus();
+            }
         }
 
         private async void OpenFileMenu_ItemTapped(Plugin.ContextMenuContainer.ContextMenuItem item)
@@ -703,7 +725,7 @@ namespace MOGWAI_RUNTIME.Pages
 
         private async void HaltTapGesture_Tapped(object sender, TappedEventArgs e)
         {
-            await OutputDisplay.EvaluateJavaScriptAsync("exitInputMode();");
+            await ConsoleExitInputMode();
             _MOGEngine.Halt();
         }
 
