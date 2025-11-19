@@ -149,7 +149,7 @@
 
             </Grid>
       
-            <WebView x:Name="OutputDisplay2" Grid.Row="1" Margin="10" Loaded="OutputDisplay2_Loaded" />
+            <WebView x:Name="OutputDisplay" Grid.Row="1" Margin="10" Loaded="OutputDisplay2_Loaded" Unfocused="OutputDisplay_Unfocused" />
 
             <Grid Grid.Row="2" ColumnDefinitions="*,*,*,*,*">
 
@@ -159,29 +159,18 @@
                     </Path.GestureRecognizers>
                 </Path>
 
-                <Path Grid.Column="1" Aspect="Uniform" Fill="LightGreen" HorizontalOptions="Center" VerticalOptions="Center" WidthRequest="25" HeightRequest="25" Margin="2" Data="M24,24L32,24 32,32 24,32z M12,24L20,24 20,32 12,32z M0,24L8,24 8,32 0,32z M24,12L32,12 32,20 24,20z M12,12L20,12 20,20 12,20z M0,12L8,12 8,20 0,20z M24,0L32,0 32,8 24,8z M12,0L20,0 20,8 12,8z M0,0L8,0 8,8 0,8z" >
+                <Path Grid.Column="3" Aspect="Uniform" Fill="LightGreen" HorizontalOptions="Center" VerticalOptions="Center" WidthRequest="25" HeightRequest="25" Margin="2" Data="M16.384001,5.2159996L10.944001,20.191999 21.823002,20.191999z M0,4L9.8240008,4 9.8240008,6.4639988 6.0800005,6.4639988 0,6.4639988z M14.528001,0L18.208002,0 30.464003,31.999999 26.144003,31.999999 23.071002,23.615999 9.664001,23.615999 6.6560007,31.999999 2.3030002,31.999999z" >
                     <Path.GestureRecognizers>
-                        <TapGestureRecognizer x:Name="GridTapGesture" Tapped="GridTapGesture_Tapped" />
+                        <TapGestureRecognizer x:Name="FontMinusGesture" Tapped="FontMinusGesture_Tapped" />
                     </Path.GestureRecognizers>
                 </Path>
 
-                <Path Grid.Column="2" Aspect="Uniform" Fill="LightGreen" HorizontalOptions="Center" VerticalOptions="Center" WidthRequest="25" HeightRequest="25" Margin="2" Data="M6.0000095,20.414001L6.0000095,26 11.586037,26z M4,15.586001L9.5000277,21.086002 14.306029,16.280001 15.720029,17.694 10.914031,22.499998 16.414059,28 4,28z M20.414017,6L25.999989,11.585999 25.999989,6z M15.58604,4L27.999977,4 27.999977,16.413998 22.500093,10.914087 17.721054,15.694014 16.30706,14.280014 21.0861,9.5000858z M2,2L2,30 30,30 30,2z M0,0L32,0 32,32 0,32z" >
-                    <Path.GestureRecognizers>
-                        <TapGestureRecognizer x:Name="SizeTapGesture" Tapped="SizeTapGesture_Tapped" />
-                    </Path.GestureRecognizers>
-                </Path>
-
-                <Path Grid.Column="3" Aspect="Uniform" Fill="LightGreen" HorizontalOptions="Center" VerticalOptions="Center" WidthRequest="25" HeightRequest="25" Margin="2" Data="M16.384001,5.2159996L10.945001,20.191999 21.824001,20.191999z M3.7439995,0.15999985L6.0799999,0.15999985 6.0799999,4.1280003 9.8240013,4.1280003 9.8240013,6.3359985 6.0799999,6.3359985 6.0799999,10.591999 3.7439995,10.591999 3.7439995,6.3359985 0,6.3359985 0,4.1280003 3.7439995,4.1280003z M14.529,0L18.208001,0 30.464001,31.999999 26.145001,31.999999 23.072001,23.615999 9.6639996,23.615999 6.6560001,31.999999 2.3040009,31.999999z" >
+                <Path Grid.Column="4" Aspect="Uniform" Fill="LightGreen" HorizontalOptions="Center" VerticalOptions="Center" WidthRequest="25" HeightRequest="25" Margin="2" Data="M16.384001,5.2159996L10.945001,20.191999 21.824001,20.191999z M3.7439995,0.15999985L6.0799999,0.15999985 6.0799999,4.1280003 9.8240013,4.1280003 9.8240013,6.3359985 6.0799999,6.3359985 6.0799999,10.591999 3.7439995,10.591999 3.7439995,6.3359985 0,6.3359985 0,4.1280003 3.7439995,4.1280003z M14.529,0L18.208001,0 30.464001,31.999999 26.145001,31.999999 23.072001,23.615999 9.6639996,23.615999 6.6560001,31.999999 2.3040009,31.999999z" >
                     <Path.GestureRecognizers>
                         <TapGestureRecognizer x:Name="FontPlusTapGesture" Tapped="FontPlusTapGesture_Tapped" />
                     </Path.GestureRecognizers>
                 </Path>
 
-                <Path Grid.Column="4" Aspect="Uniform" Fill="LightGreen" HorizontalOptions="Center" VerticalOptions="Center" WidthRequest="25" HeightRequest="25" Margin="2" Data="M16.384001,5.2159996L10.944001,20.191999 21.823002,20.191999z M0,4L9.8240008,4 9.8240008,6.4639988 6.0800005,6.4639988 0,6.4639988z M14.528001,0L18.208002,0 30.464003,31.999999 26.144003,31.999999 23.071002,23.615999 9.664001,23.615999 6.6560007,31.999999 2.3030002,31.999999z" >
-                    <Path.GestureRecognizers>
-                        <TapGestureRecognizer x:Name="FontMinusGesture" Tapped="FontMinusGesture_Tapped" />
-                    </Path.GestureRecognizers>
-                </Path>
 
             </Grid>
 

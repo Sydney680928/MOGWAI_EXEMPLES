@@ -78,13 +78,17 @@
 
             inputControl.addEventListener("keydown", function (event) {
                 if (event.code == "Enter") {
-                    inputControl.remove();
-                    lastInputValue = inputControl.value;
-                    consoleWriteLine(lastInputValue);
-                    inputModeInProgress = false;
+                    exitInputMode();
                 }
             });          
         });
+
+        function exitInputMode() {
+            inputControl.remove();
+            lastInputValue = inputControl.value;
+            consoleWriteLine(lastInputValue);
+            inputModeInProgress = false;
+        }
 
         function startInputMode() {
             inputModeInProgress = true;
@@ -114,6 +118,13 @@
             if (textControl != null) {
                 textControl.innerHTML = "<br>";
                 window.scrollTo(0, 0);
+            }
+        }
+
+        function setSize(size) {
+            document.body.style.fontSize = size + "pt";
+            if (inputControl != null) {
+                inputControl.style.fontSize = size + "pt";
             }
         }
 

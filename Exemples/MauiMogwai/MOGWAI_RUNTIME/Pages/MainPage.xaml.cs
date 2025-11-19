@@ -25,7 +25,7 @@ namespace MOGWAI_RUNTIME.Pages
 
         public int RunFontSize
         {
-            get => Preferences.Default.Get(SCRIPT_RUN_FONT_SIZE, 10);
+            get => Preferences.Default.Get(SCRIPT_RUN_FONT_SIZE, 8);
 
             set
             {
@@ -70,7 +70,7 @@ namespace MOGWAI_RUNTIME.Pages
                 Html = Tools.GetStringFromResource("ConsoleWebView.html")
             };
 
-            OutputDisplay2.Source = htmlSource;
+            OutputDisplay.Source = htmlSource;
         }
 
         private void ShowCodeEditorScreen()
@@ -123,6 +123,8 @@ namespace MOGWAI_RUNTIME.Pages
                 FlagPlugPath.IsVisible = _MOGEngine.IsSocketServerRunning;
                 FlagPausePath.IsVisible = _MOGEngine.IsPaused;
 
+                await OutputDisplay.EvaluateJavaScriptAsync($"setSize({RunFontSize});");
+
                 CodeEditorGrid.IsVisible = false;
                 RunGrid.IsVisible = true;
             });
@@ -132,7 +134,7 @@ namespace MOGWAI_RUNTIME.Pages
         {
             await MainThread.InvokeOnMainThreadAsync(async () =>
             {
-                await OutputDisplay2.EvaluateJavaScriptAsync("consoleClearScreen();");
+                await OutputDisplay.EvaluateJavaScriptAsync("consoleClearScreen();");
             });
         }
 
@@ -243,7 +245,7 @@ namespace MOGWAI_RUNTIME.Pages
         {
             if (await CheckIfSaveIsRequested()) return false;
 
-            var f = await SelectScripFile("Open script");
+            var f = await SelectScripFile("Open Script");
 
             if (f != null)
             {
@@ -357,10 +359,10 @@ namespace MOGWAI_RUNTIME.Pages
 
                     for (int i = 0; i < lines.Length - 1; i++)
                     {
-                        await OutputDisplay2.EvaluateJavaScriptAsync($"consoleWriteLine(\"{lines[i]}\");");
+                        await OutputDisplay.EvaluateJavaScriptAsync($"consoleWriteLine(\"{lines[i]}\");");
                     }
 
-                    await OutputDisplay2.EvaluateJavaScriptAsync($"consoleWrite(\"{lines[lines.Length - 1]}\");");
+                    await OutputDisplay.EvaluateJavaScriptAsync($"consoleWrite(\"{lines[lines.Length - 1]}\");");
                 }
             });
         }
@@ -375,12 +377,12 @@ namespace MOGWAI_RUNTIME.Pages
 
                     foreach (var line in lines)
                     {
-                        await OutputDisplay2.EvaluateJavaScriptAsync($"consoleWriteLine(\"{line}\");");
+                        await OutputDisplay.EvaluateJavaScriptAsync($"consoleWriteLine(\"{line}\");");
                     }
                 }
                 else
                 {
-                    await OutputDisplay2.EvaluateJavaScriptAsync("consoleWriteLine(\"\");");
+                    await OutputDisplay.EvaluateJavaScriptAsync("consoleWriteLine(\"\");");
                 }
             });
         }
@@ -389,7 +391,7 @@ namespace MOGWAI_RUNTIME.Pages
         {
             await MainThread.InvokeOnMainThreadAsync(async () =>
             {             
-                await OutputDisplay2.EvaluateJavaScriptAsync("startInputMode();");
+                await OutputDisplay.EvaluateJavaScriptAsync("startInputMode();");
             });
         }
 
@@ -403,13 +405,13 @@ namespace MOGWAI_RUNTIME.Pages
         {
             return await MainThread.InvokeOnMainThreadAsync<string>(async () =>
             {
-                OutputDisplay2.Focus();
+                OutputDisplay.Focus();
 
                 await ConsoleStartInputMode();
 
                 while (true)
                 {
-                    var r = await OutputDisplay2.EvaluateJavaScriptAsync("inputModeInProgress");
+                    var r = await OutputDisplay.EvaluateJavaScriptAsync("inputModeInProgress");
 
                     if (r != null && r == "true")
                     {
@@ -419,7 +421,7 @@ namespace MOGWAI_RUNTIME.Pages
 
                 while (true)
                 {
-                    var r = await OutputDisplay2.EvaluateJavaScriptAsync("inputModeInProgress");
+                    var r = await OutputDisplay.EvaluateJavaScriptAsync("inputModeInProgress");
 
                     if (r != null && r == "false")
                     {
@@ -434,7 +436,7 @@ namespace MOGWAI_RUNTIME.Pages
 
                 // On récupère la valeur saisie
 
-                var v = await OutputDisplay2.EvaluateJavaScriptAsync("lastInputValue");
+                var v = await OutputDisplay.EvaluateJavaScriptAsync("lastInputValue");
                 return v ?? "";
             });
         }
@@ -699,41 +701,13 @@ namespace MOGWAI_RUNTIME.Pages
             });
         }
 
-        private void HaltTapGesture_Tapped(object sender, TappedEventArgs e)
+        private async void HaltTapGesture_Tapped(object sender, TappedEventArgs e)
         {
+            await OutputDisplay.EvaluateJavaScriptAsync("exitInputMode();");
             _MOGEngine.Halt();
         }
 
-        private void GridTapGesture_Tapped(object sender, TappedEventArgs e)
-        {
-
-        }
-
-        private async void SizeTapGesture_Tapped(object sender, TappedEventArgs e)
-        {
-            var size = $"{RunScreenWidth};{RunScreenHeight}";
-
-            var r = await DisplayPromptAsync("SORTIE", "Veuillez saisir la taille de la console de sortie", "OK", "CANCEL", "width;height", -1, Keyboard.Text, size);
-
-            if (!string.IsNullOrEmpty(r))
-            {
-                var items = r.Split(';');
-
-                if (items.Length == 2 && int.TryParse(items[0], null, out var cw) && int.TryParse(items[1], null, out var ch))
-                {
-                    if (cw > 10 && cw < 100 && ch > 10 && ch < 100)
-                    {
-
-                    }
-                    else
-                    {
-                        await DisplayAlert("SORTIE", "Vous devez saisir des valeurs entre 10 et 100 au format 'width;height' !", "OK");
-                    }
-                }
-            }
-        }
-
-        private void FontPlusTapGesture_Tapped(object sender, TappedEventArgs e)
+        private async void FontPlusTapGesture_Tapped(object sender, TappedEventArgs e)
         {
             if (CodeEditorGrid.IsVisible)
             {
@@ -745,14 +719,15 @@ namespace MOGWAI_RUNTIME.Pages
             }
             else
             {
-                if (RunFontSize < 30)
+                if (RunFontSize < 24)
                 {
                     RunFontSize += 1;
+                    await OutputDisplay.EvaluateJavaScriptAsync($"setSize({RunFontSize});");
                 }
             }
         }
 
-        private void FontMinusGesture_Tapped(object sender, TappedEventArgs e)
+        private async void FontMinusGesture_Tapped(object sender, TappedEventArgs e)
         {
             if (CodeEditorGrid.IsVisible)
             {
@@ -764,9 +739,10 @@ namespace MOGWAI_RUNTIME.Pages
             }
             else
             {
-                if (RunFontSize > 10)
+                if (RunFontSize > 8)
                 {
                     RunFontSize -= 1;
+                    await OutputDisplay.EvaluateJavaScriptAsync($"setSize({RunFontSize});");
                 }
             }
         }
@@ -783,6 +759,16 @@ namespace MOGWAI_RUNTIME.Pages
             // On repasse en mode édition
 
             ShowCodeEditorScreen();
+        }
+
+        private async void OutputDisplay_Unfocused(object sender, FocusEventArgs e)
+        {
+            var r = await OutputDisplay.EvaluateJavaScriptAsync("inputModeInProgress");
+
+            if (r == "true")
+            {
+                OutputDisplay.Focus();  
+            }
         }
 
 
@@ -832,8 +818,6 @@ namespace MOGWAI_RUNTIME.Pages
                 FlagRunPath.IsVisible = false;
                 FlagErrorPath.IsVisible = result.Error != MOGEngine.NoError;
 
-                // Message de fin de programme sur écran
-
                 await ConsoleWriteLineAsync("");
 
                 if (result.Error != MOGEngine.NoError)
@@ -847,8 +831,6 @@ namespace MOGWAI_RUNTIME.Pages
                 }
 
                 await ConsoleWriteLineAsync(" ");
-
-                // Réactivation de l'auto power off
 
                 Tools.ResumeAutoPowerOff();
             });
@@ -973,8 +955,7 @@ namespace MOGWAI_RUNTIME.Pages
 
         public async Task<string> ConsolePrompt(MOGEngine sender, string prompt)
         {
-            await ConsoleWriteAsync(prompt);
-            return await ConsoleInput();
+            return await ConsolePrompt(prompt);
         }
 
         public async Task<int> ConsoleInputKey(MOGEngine sender)
