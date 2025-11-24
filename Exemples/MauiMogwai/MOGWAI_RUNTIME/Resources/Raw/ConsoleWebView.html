@@ -77,17 +77,20 @@
             });
 
             inputControl.addEventListener("keydown", function (event) {
-                if (event.code == "Enter") {
+                if (event.key === 'Enter') {
+                    event.preventDefault();
                     exitInputMode();
                 }
-            });          
+            }); 
         });
 
         function exitInputMode() {
-            inputControl.remove();
-            lastInputValue = inputControl.value;
-            consoleWriteLine(lastInputValue);
-            inputModeInProgress = false;
+            if (inputModeInProgress) {
+                inputControl.remove();
+                lastInputValue = inputControl.value;
+                consoleWriteLine(lastInputValue);
+                inputModeInProgress = false;
+            }
         }
 
         function startInputMode() {
@@ -136,7 +139,7 @@
 
         <label id="textControl" for="inputControl" />
 
-        <input id="inputControl" type="text" inputmode="text" size="5" style="width: auto; padding: 2px; margin: 2px" />
+        <input id="inputControl" size="5" style="width: auto; padding: 2px; margin: 2px" />
 
     </body>
 

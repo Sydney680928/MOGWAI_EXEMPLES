@@ -254,7 +254,7 @@ namespace MOGWAI_RUNTIME.Pages
                     _Filename = f;
                     _CodeIsSaved = true;
 
-                    MainThread.BeginInvokeOnMainThread(() =>
+                    await MainThread.InvokeOnMainThreadAsync(() =>
                     {
                         CodeEditor.Text = code;
                         _CodeIsModified = false;
@@ -455,7 +455,7 @@ namespace MOGWAI_RUNTIME.Pages
             if (!await CheckIfSaveIsRequested())
             {
                 _Filename = "NO NAME";
-                _CodeIsSaved = true;
+                _CodeIsSaved = false;
                 CodeEditor.Text = string.Empty;
                 _CodeIsModified = false;
                 FilenameLabel.Text = _Filename;
@@ -841,17 +841,7 @@ namespace MOGWAI_RUNTIME.Pages
                 FlagErrorPath.IsVisible = result.Error != MOGEngine.NoError;
 
                 await ConsoleWriteLineAsync("");
-
-                if (result.Error != MOGEngine.NoError)
-                {
-                    await ConsoleWriteLineAsync("Program did stop with error !");
-                    await ConsoleWriteLineAsync(result.ToString());
-                }
-                else
-                {
-                    await ConsoleWriteLineAsync("Program did stop without error.");
-                }
-
+                await ConsoleWriteLineAsync(result.ToString());
                 await ConsoleWriteLineAsync(" ");
 
                 Tools.ResumeAutoPowerOff();
