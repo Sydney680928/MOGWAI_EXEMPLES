@@ -234,6 +234,11 @@ namespace MOGWAI_RUNTIME.Pages
             {
                 ShowCodeEditorScreen();
             }
+
+#if WINDOWS
+
+            await DisplayAlert("MOGWAI RUNTIME", "In Windows, to open the [script] and [files] menus you must right-click.", "OK");
+#endif
         }
 
         private async Task<bool> OpenFileAsync()
