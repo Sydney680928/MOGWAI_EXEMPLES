@@ -1,6 +1,6 @@
-# MOGWAI EXAMPLES
-
 ![MOGWAI](./Images/img01.png)
+
+# MOGWAI EXAMPLES
 
 This repository contains examples of integrating the [**MOGWAI runtime**](https://www.mogwai.eu.com) into applications.
 
