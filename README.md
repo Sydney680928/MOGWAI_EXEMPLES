@@ -20,7 +20,7 @@ This example demonstrates how to integrate the **MOGWAI runtime** into a **.NET 
 
 The application lets you input **MOGWAI** code, store it, run it, and if you have [**MOGWAI STUDIO installed**](https://studio.mogwai.eu.com), start a debug session.
 
-Click on the image below to watch the test bench application video.
+Click on the image below to watch the application video.
 
 [![Application powered by MOGWAI](./Images/img03.png)](https://www.youtube.com/watch?v=XL_8_kXeQ8Y)
 
