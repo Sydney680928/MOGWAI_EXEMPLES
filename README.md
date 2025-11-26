@@ -21,7 +21,7 @@ This example demonstrates how to integrate the **MOGWAI runtime** into a **.NET 
 
 The application lets you input **MOGWAI** code, store it, run it, and if you have [**MOGWAI STUDIO installed**](https://studio.mogwai.eu.com), start a debug session.
 
-![MOGWAI](./Images/img03.png)
+[!MauiMogwai](https://img.youtube.com/vi/XL_8_kXeQ8Y/maxresdefault.jpg)](https://www.youtube.com/watch?v=XL_8_kXeQ8Y)
 
 ---
 Back to the [main MOGWAI GitHub repository](https://github.com/Sydney680928/MOGWAI-PUBLIC)
