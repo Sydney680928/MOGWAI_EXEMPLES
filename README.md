@@ -14,14 +14,13 @@ One of the scripts shows how to add features to **MOGWAI** by adding support for
 
 ![MOGWAI](./Images/img02.png)
 
-
 ## `MauiMogwai` project
 
 This example demonstrates how to integrate the **MOGWAI runtime** into a **.NET MAUI** application that can target Windows, iOS, and Android.
 
 The application lets you input **MOGWAI** code, store it, run it, and if you have [**MOGWAI STUDIO installed**](https://studio.mogwai.eu.com), start a debug session.
 
-[!MauiMogwai](https://img.youtube.com/vi/XL_8_kXeQ8Y/maxresdefault.jpg)](https://www.youtube.com/watch?v=XL_8_kXeQ8Y)
+[![Application powered by MOGWAI](https://img.youtube.com/vi/XL_8_kXeQ8Y/maxresdefault.jpg)](https://www.youtube.com/watch?v=XL_8_kXeQ8Y)
 
 ---
 Back to the [main MOGWAI GitHub repository](https://github.com/Sydney680928/MOGWAI-PUBLIC)
