@@ -35,31 +35,31 @@ namespace WinFormsMogwai
         {
             InitializeComponent();
 
-            // Création du moteur de scripting.
-            // On lui donne un nom qui sera utilisé pour créer son dossier de travail.
-            // Par défaut, le dossier de travail est dans DOCUMENTS/MOGWAI/APPS/[NOM DU MOTEUR]
+            // Creating the scripting engine.
+            // We give it a name that will be used to create its working folder.
+            // By default, the working folder is in DOCUMENTS/MOGWAI/APPS/[ENGINE NAME]
 
             _MogwaiEngine = new MOGEngine("MOGWAI INTEGRATION", @delegate: this);
 
-            // Le dossier de travail sera donc "C:\Users\[USER]\Documents\MOGWAI\APPS\MOGWAI INTEGRATION"
+            // The working folder will therefore be "C:\Users\[USER]\Documents\MOGWAI\APPS\MOGWAI INTEGRATION"
 
-            // On désactive certaines fonctions qui ne sont pas utilisables dans cet exemple.
-            // Si ces fonctions sont utilisées, une erreur sera levée.
+            // We disable certain functions that are not usable in this example.
+            // If these functions are used, an error will be raised.
 
             _MogwaiEngine.SetKeywordStatus("console.cursor", false);
             _MogwaiEngine.SetKeywordStatus("console.show", false);
             _MogwaiEngine.SetKeywordStatus("console.hide", false);
             _MogwaiEngine.SetKeywordStatus("console.inputkey", false);
 
-            // Initialisation du crayon utilisé par la tortue.
+            // Initialization of the pen used by the turtle.
 
             currentPen = new Pen(currentColor, currentWidth);
 
-            // Centrage de la tortue
+            // Centering the turtle
 
             TurtleClear();
 
-            // On règle la taille de décallage du tab dans le code
+            // We set the tab offset size in the code
 
             SendMessage(CodeTextBox.Handle, EM_SETTABSTOPS, 1, [15]);
         }
@@ -96,13 +96,13 @@ namespace WinFormsMogwai
         }
 
         #endregion
-        
+
 
         #region UI
 
         private async void ExecuteButton_Click(object sender, EventArgs e)
         {
-            // On envoie le code à MOGWAI
+            // We send the code to MOGWAI
 
             ExecuteButton.Enabled = false;
             CodeTextBox.Enabled = false;
@@ -136,7 +136,7 @@ namespace WinFormsMogwai
 
             if (turtleIsVisible) DrawTurtle(e.Graphics, false);
         }
-        
+
         private void FormMain_SizeChanged(object sender, EventArgs e)
         {
             TurtleClear();
@@ -493,7 +493,7 @@ namespace WinFormsMogwai
             // MOGWAI input function
             // Get string from console
 
-            return await OutputTextBox.Input("");          
+            return await OutputTextBox.Input("");
         }
 
         public async Task<string> ConsolePrompt(MOGEngine sender, string prompt)
