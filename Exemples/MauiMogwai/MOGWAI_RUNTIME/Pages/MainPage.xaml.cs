@@ -76,7 +76,7 @@ namespace MOGWAI_RUNTIME.Pages
         private void ShowCodeEditorScreen()
         {
             _DebugMode = false;
-        
+
             // Auto power off -> ON
 
             MainThread.BeginInvokeOnMainThread(() =>
@@ -191,14 +191,14 @@ namespace MOGWAI_RUNTIME.Pages
         {
             if (RunGrid.IsVisible)
             {
-                // Si un programme tourne on l'arrête
+                // If a program is running, we stop it
 
                 if (_MOGEngine.IsRunning)
                 {
                     _MOGEngine.Halt();
                 }
 
-                // On repasse en mode édition si on est en
+                // We switch back to editor mode
 
                 ShowCodeEditorScreen();
 
@@ -220,11 +220,11 @@ namespace MOGWAI_RUNTIME.Pages
 
             FilenameLabel.Text = _Filename;
 
-            // On paramètre la taille de la police de l'éditeur
+            // We set the editor font size
 
             CodeEditor.FontSize = EditorFontSize;
 
-            // Par défaut on affiche l'éditeur de code sauf si du code tourne
+            // By default we display the code editor unless code is running
 
             if (_MOGEngine.IsRunning || _MOGEngine.IsPaused)
             {
@@ -290,11 +290,11 @@ namespace MOGWAI_RUNTIME.Pages
 
         private async Task<string?> SelectScripFile(string title)
         {
-            // On liste les fichiers .mog du dossier code des scripts
+            // We list the .mog files from the code scripts folder
 
             var files = Directory.GetFiles(AppGlobal.CodeFolder, "*.mog");
 
-            // On ne garde que les noms de fichiers sans le chemin complet
+            // We keep only the file names without the full path
 
             var items = new List<string>();
             foreach (var file in files)
@@ -315,11 +315,11 @@ namespace MOGWAI_RUNTIME.Pages
 
         private async Task<string?> SelectDataFile(string title)
         {
-            // On liste les fichiers du dossier data des scripts
+            // We list the files from the scripts data folder
 
             var files = Directory.GetFiles(AppGlobal.DataFolder);
 
-            // On ne garde que les noms de fichiers sans le chemin complet
+            // We keep only the file names without the full path
 
             var items = new List<string>();
             foreach (var file in files)
@@ -396,7 +396,7 @@ namespace MOGWAI_RUNTIME.Pages
         private async Task ConsoleStartInputMode()
         {
             await MainThread.InvokeOnMainThreadAsync(async () =>
-            {             
+            {
                 await OutputDisplay.EvaluateJavaScriptAsync("startInputMode();");
             });
         }
@@ -439,8 +439,8 @@ namespace MOGWAI_RUNTIME.Pages
 
                     if (r != null && r == "false")
                     {
-                        // Saisie terminée.
-                        // On sort
+                        // Input completed.
+                        // We exit
 
                         break;
                     }
@@ -448,7 +448,7 @@ namespace MOGWAI_RUNTIME.Pages
                     await Task.Delay(500);
                 }
 
-                // On récupère la valeur saisie
+                // We retrieve the entered value
 
                 var v = await OutputDisplay.EvaluateJavaScriptAsync("lastInputValue");
                 return v ?? "";
@@ -573,7 +573,7 @@ namespace MOGWAI_RUNTIME.Pages
 
             if (f != null)
             {
-                // le fichier doit se terminer par .mog
+                // The file must end with .mog
 
                 if (!System.IO.Path.GetFileName(f).ToUpper().EndsWith(".MOG"))
                 {
@@ -776,14 +776,14 @@ namespace MOGWAI_RUNTIME.Pages
 
         private void BackGesture_Tapped(object sender, TappedEventArgs e)
         {
-            // Si un programme tourne on l'arrête
+            // If a program is running, we stop it
 
             if (_MOGEngine.IsRunning)
             {
                 _MOGEngine.Halt();
             }
 
-            // On repasse en mode édition
+            // We switch back to editor mode
 
             ShowCodeEditorScreen();
         }
@@ -794,7 +794,7 @@ namespace MOGWAI_RUNTIME.Pages
 
             if (r == "true")
             {
-                OutputDisplay.Focus();  
+                OutputDisplay.Focus();
             }
         }
 
@@ -1040,7 +1040,7 @@ namespace MOGWAI_RUNTIME.Pages
 
         public async Task SocketServerDidStop(MOGEngine sender)
         {
-            // On repasse en mode édition
+            // We switch back to editor mode
 
             await MainThread.InvokeOnMainThreadAsync(ShowCodeEditorScreen);
         }
