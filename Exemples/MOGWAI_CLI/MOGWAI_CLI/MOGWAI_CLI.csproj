@@ -1,0 +1,31 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
+    <RootNamespace>MOGWAI_CONSOLE</RootNamespace>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <ApplicationIcon>mogwai.ico</ApplicationIcon>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="AsyncService.cs" />
+    <Compile Remove="ServerMessage.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="mogwai.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="MOGWAI">
+      <HintPath>..\LIBS\MOGWAI.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+</Project>
