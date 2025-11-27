@@ -803,6 +803,7 @@ namespace MOGWAI_RUNTIME.Pages
 
         public async Task ProgramStart(MOGEngine sender, string code)
         {
+            // Called when program starts
             await MainThread.InvokeOnMainThreadAsync(() =>
             {
                 CodeEditor.Text = code;
@@ -817,11 +818,13 @@ namespace MOGWAI_RUNTIME.Pages
 
         public async Task ParseStart(MOGEngine sender)
         {
+            // Called when parsing step starts
             await Task.CompletedTask;
         }
 
         public async Task ParseEnded(MOGEngine sender, MOGError error)
         {
+            // Called when parsing step ends
             if (!_DebugMode)
             {
                 await MainThread.InvokeOnMainThreadAsync(async () =>
@@ -840,7 +843,9 @@ namespace MOGWAI_RUNTIME.Pages
 
         public async Task ProgramEnded(MOGEngine sender, EvalResult result)
         {
-            await MainThread.InvokeOnMainThreadAsync( async () =>
+            // Called when program ends
+            // result parameter contains status (ok or error)
+            await MainThread.InvokeOnMainThreadAsync(async () =>
             {
                 FlagRunPath.IsVisible = false;
                 FlagErrorPath.IsVisible = result.Error != MOGEngine.NoError;
@@ -855,11 +860,13 @@ namespace MOGWAI_RUNTIME.Pages
 
         public async Task EvalLib(MOGEngine sender, string filename, string code)
         {
+            // Called when a library is imported
             await Task.CompletedTask;
         }
 
         public async Task EvalProgram(MOGEngine sender, string filename, string code)
         {
+            // Called when a program is started
             await Task.CompletedTask;
         }
 
@@ -880,6 +887,7 @@ namespace MOGWAI_RUNTIME.Pages
 
         public async Task IsPaused(MOGEngine sender)
         {
+            // Called when runtime is paused
             await MainThread.InvokeOnMainThreadAsync(() =>
             {
                 FlagPausePath.IsVisible = true;
@@ -889,6 +897,7 @@ namespace MOGWAI_RUNTIME.Pages
 
         public async Task IsResumed(MOGEngine sender)
         {
+            // Called when runtime is resumed
             await MainThread.InvokeOnMainThreadAsync(() =>
             {
                 FlagPausePath.IsVisible = false;
@@ -903,11 +912,13 @@ namespace MOGWAI_RUNTIME.Pages
 
         public async Task Trace(MOGEngine sender)
         {
+            // MOGWAI debug.tron function
             await Task.CompletedTask;
         }
 
         public async Task EventDidConsume(MOGEngine sender, string eventReference)
         {
+            // Called when an event is consumed
             await Task.CompletedTask;
         }
 
@@ -919,39 +930,47 @@ namespace MOGWAI_RUNTIME.Pages
 
         public async Task<string?> HelpForExternalWord(MOGEngine sender, string word)
         {
+            // MOGWAI help function
             await Task.CompletedTask;
             return "Help not found.";
         }
 
         public async Task<bool> IsReservedWord(MOGEngine sender, string word)
         {
+            // Return all new reserved keywords by the host.
+            // These keywords cannot be used as variable names for example.
             await Task.CompletedTask;
             return false;
         }
 
         public async Task RuntimeEvent(MOGEngine sender, string eventName, MOGObject? data)
         {
+            // Called when host sends event to MOGWAI runtime
             await Task.CompletedTask;
         }
 
         public async Task<string[]> ExternalKeywords(MOGEngine sender)
         {
+            // Return all additional keywords powered by the host
             await Task.CompletedTask;
             return [];
         }
 
         public async Task ConsoleShow(MOGEngine sender)
         {
+            // MOGWAI console.show function
             await Task.CompletedTask;
         }
 
         public async Task ConsoleHide(MOGEngine sender)
         {
+            // MOGWAI console.hide function
             await Task.CompletedTask;
         }
 
         public async Task ConsoleClear(MOGEngine sender)
         {
+            // MOGWAI console.clear function
             await ConsoleClearScreenAsync();
         }
 
@@ -977,6 +996,7 @@ namespace MOGWAI_RUNTIME.Pages
 
         public async Task<int> ConsoleInputKey(MOGEngine sender)
         {
+            // MOGWAI console.inputkey function
             await Task.CompletedTask;
             return 0;
         }
@@ -1004,12 +1024,14 @@ namespace MOGWAI_RUNTIME.Pages
 
         public async Task<List<MOGSkill>?> RequestSkills(MOGEngine sender)
         {
+            // Return all host's skills
             await Task.CompletedTask;
-            return [new("MYCOMETA")];
+            return [new("MOGWAI RUNTIME")];
         }
 
         public async Task SocketServerDidStart(MOGEngine sender, IPAddress address, int port)
         {
+            // Called when debug server starts
             await MainThread.InvokeOnMainThreadAsync(() =>
             {
                 FlagPlugPath.IsVisible = true;
@@ -1025,14 +1047,17 @@ namespace MOGWAI_RUNTIME.Pages
 
         public async Task StudioDidConnect(MOGEngine sender)
         {
+            // Called when MOGWAI STUDIO connects
             await Task.CompletedTask;
         }
 
         public async Task StudioDidDisconnect(MOGEngine sender)
         {
+            // Called when MOGWAI STUDIO disconnects
             await Task.CompletedTask;
         }
 
         #endregion
+
     }
 }

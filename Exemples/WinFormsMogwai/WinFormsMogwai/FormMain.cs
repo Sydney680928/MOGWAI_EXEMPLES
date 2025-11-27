@@ -10,7 +10,7 @@ using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace WinFormsMogwai
 {
-    public partial class FormMain : Form, MOGWAI.Classes.MOGEngineDelegate
+    public partial class FormMain : Form, MOGEngineDelegate
     {
         private MOGEngine _MogwaiEngine;
 
